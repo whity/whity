@@ -3,8 +3,8 @@
 	<channel>
 		<title>whity's notes</title>
 		<description>Software Developer</description>
-		<link>http://localhost:4000</link>
-		<atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
+		<link>http://whity.github.io</link>
+		<atom:link href="http://whity.github.io/feed.xml" rel="self" type="application/rss+xml" />
 		
 			<item>
 				<title>How to build rpm's from npm modules</title>
@@ -106,8 +106,8 @@ rm -rf $RPM_BUILD_ROOT
 
 </description>
 				<pubDate>Mon, 21 Dec 2015 16:19:02 +0000</pubDate>
-				<link>http://localhost:4000/2015/12/npm2rpm</link>
-				<guid isPermaLink="true">http://localhost:4000/2015/12/npm2rpm</guid>
+				<link>http://whity.github.io/2015/12/npm2rpm</link>
+				<guid isPermaLink="true">http://whity.github.io/2015/12/npm2rpm</guid>
 			</item>
 		
 			<item>
@@ -128,8 +128,8 @@ rm -rf $RPM_BUILD_ROOT
 &lt;/ul&gt;
 </description>
 				<pubDate>Sun, 12 Jul 2015 23:01:01 +0100</pubDate>
-				<link>http://localhost:4000/2015/07/revert-and-reset-commits</link>
-				<guid isPermaLink="true">http://localhost:4000/2015/07/revert-and-reset-commits</guid>
+				<link>http://whity.github.io/2015/07/revert-and-reset-commits</link>
+				<guid isPermaLink="true">http://whity.github.io/2015/07/revert-and-reset-commits</guid>
 			</item>
 		
 			<item>
@@ -160,8 +160,8 @@ rm -rf $RPM_BUILD_ROOT
 
 </description>
 				<pubDate>Thu, 18 Jun 2015 09:42:32 +0100</pubDate>
-				<link>http://localhost:4000/2015/06/mysqldump</link>
-				<guid isPermaLink="true">http://localhost:4000/2015/06/mysqldump</guid>
+				<link>http://whity.github.io/2015/06/mysqldump</link>
+				<guid isPermaLink="true">http://whity.github.io/2015/06/mysqldump</guid>
 			</item>
 		
 			<item>
@@ -183,8 +183,8 @@ rm -rf $RPM_BUILD_ROOT
 
 </description>
 				<pubDate>Tue, 16 Jun 2015 09:56:00 +0100</pubDate>
-				<link>http://localhost:4000/2015/06/burn-iso-to-usb</link>
-				<guid isPermaLink="true">http://localhost:4000/2015/06/burn-iso-to-usb</guid>
+				<link>http://whity.github.io/2015/06/burn-iso-to-usb</link>
+				<guid isPermaLink="true">http://whity.github.io/2015/06/burn-iso-to-usb</guid>
 			</item>
 		
 			<item>
@@ -194,8 +194,8 @@ rm -rf $RPM_BUILD_ROOT
 
 </description>
 				<pubDate>Mon, 15 Jun 2015 23:47:45 +0100</pubDate>
-				<link>http://localhost:4000/2015/06/list-commit-files</link>
-				<guid isPermaLink="true">http://localhost:4000/2015/06/list-commit-files</guid>
+				<link>http://whity.github.io/2015/06/list-commit-files</link>
+				<guid isPermaLink="true">http://whity.github.io/2015/06/list-commit-files</guid>
 			</item>
 		
 			<item>
@@ -238,8 +238,8 @@ rm -rf $RPM_BUILD_ROOT
 
 </description>
 				<pubDate>Sun, 14 Jun 2015 22:53:02 +0100</pubDate>
-				<link>http://localhost:4000/2015/06/osx-env-vars</link>
-				<guid isPermaLink="true">http://localhost:4000/2015/06/osx-env-vars</guid>
+				<link>http://whity.github.io/2015/06/osx-env-vars</link>
+				<guid isPermaLink="true">http://whity.github.io/2015/06/osx-env-vars</guid>
 			</item>
 		
 			<item>
@@ -249,8 +249,8 @@ rm -rf $RPM_BUILD_ROOT
 
 </description>
 				<pubDate>Sun, 14 Jun 2015 22:53:02 +0100</pubDate>
-				<link>http://localhost:4000/2015/06/delete-local-branch</link>
-				<guid isPermaLink="true">http://localhost:4000/2015/06/delete-local-branch</guid>
+				<link>http://whity.github.io/2015/06/delete-local-branch</link>
+				<guid isPermaLink="true">http://whity.github.io/2015/06/delete-local-branch</guid>
 			</item>
 		
 			<item>
@@ -274,8 +274,8 @@ git branch --set-upstream-to&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;upstre
 
 </description>
 				<pubDate>Sun, 14 Jun 2015 22:48:07 +0100</pubDate>
-				<link>http://localhost:4000/2015/06/local-branch-track-remote-branch</link>
-				<guid isPermaLink="true">http://localhost:4000/2015/06/local-branch-track-remote-branch</guid>
+				<link>http://whity.github.io/2015/06/local-branch-track-remote-branch</link>
+				<guid isPermaLink="true">http://whity.github.io/2015/06/local-branch-track-remote-branch</guid>
 			</item>
 		
 	</channel>
