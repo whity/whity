@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>whity's notes</title>
+		<description>Software Developer</description>
+		<link>http://localhost:4000</link>
+		<atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
+		
+			<item>
+				<title>How to build rpm's from npm modules</title>
+				<description>&lt;h3 id=&quot;using-fpm&quot;&gt;using fpm&lt;/h3&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;install ruby, if needed ( not covered in this how )&lt;/li&gt;
+  &lt;li&gt;install fpm&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;gem install fpm&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;install the npm module&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;npm install my-module&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;run the fpm command&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;fpm -s npm -t rpm my-module&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;manually&quot;&gt;manually&lt;/h3&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;install the npm module&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;npm install my-module&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;run the following npm command&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;npm -g -q --production --prefix&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;/tmp/my-module&quot;&lt;/span&gt; install ~/node_modules/my-module&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;rename “/tmp/my-module” to “/tmp/my-module-[version]-[rpm_release].[arch]”&lt;/li&gt;
+  &lt;li&gt;create the tar&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;tar -czvf /tmp/my-module-[version]-[rpm_release].[arch].tar.gz /tmp/my-module-[version]-[rpm_release].[arch]&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;copy the tarball to “rpmbuild/SOURCES”&lt;/li&gt;
+  &lt;li&gt;create the spec file in “rpmbuild/SPECS/”, example:&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-plaintext&quot; data-lang=&quot;plaintext&quot;&gt;name            : node-jsfmt
+summary         : For formatting, searching, and rewriting JavaScript
+version         : 0.4.0
+release         : 1
+buildarch       : x86_64
+buildroot       : %{_tmppath}/%{name}-%{version}
+group           : Development/Tools
+license         : unknown
+vendor          : Jim Fleming &amp;lt;jimmy.fleming@gmail.com&amp;gt;
+url             : https://github.com/rdio/jsfmt
+source          : %{name}-%{version}-%{release}.%{buildarch}.tar.gz
+packager        : NOS ISP
+requires        : nodejs
+
+%description
+For formatting, searching, and rewriting JavaScript
+
+%prep
+%setup -q -n %{name}-%{version}-%{release}.%{buildarch}
+
+%build
+# noop
+
+%install
+# First we make sure we start clean
+rm -rf $RPM_BUILD_ROOT
+
+mkdir -p $RPM_BUILD_ROOT/usr/bin
+mkdir -p $RPM_BUILD_ROOT/usr/lib/node_modules
+
+cp -r usr/lib/node_modules/jsfmt $RPM_BUILD_ROOT/usr/lib/node_modules/
+ln -s /usr/lib/node_modules/jsfmt/bin/jsfmt $RPM_BUILD_ROOT/usr/bin/jsfmt
+
+%clean
+rm -rf $RPM_BUILD_ROOT
+
+%files
+%defattr(-,root,root,-)
+/usr/bin/jsfmt
+/usr/lib/node_modules/jsfmt
+
+%changelog&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;run the rpmbuild command&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;rpmbuild -ba rpmbuild/SPECS/my-module.spec&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+</description>
+				<pubDate>Mon, 21 Dec 2015 16:19:02 +0000</pubDate>
+				<link>http://localhost:4000/2015/12/npm2rpm</link>
+				<guid isPermaLink="true">http://localhost:4000/2015/12/npm2rpm</guid>
+			</item>
+		
+			<item>
+				<title>Revert and reset commits</title>
+				<description>&lt;h3 id=&quot;reset-last-commit&quot;&gt;reset last commit&lt;/h3&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;git reset HEAD^&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;revert-a-specific-commit&quot;&gt;revert a specific commit&lt;/h3&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;git revert &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;commit]&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;more-documentation&quot;&gt;more documentation&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;http://git-scm.com/docs/git-reset&lt;/li&gt;
+  &lt;li&gt;http://git-scm.com/docs/git-revert&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+				<pubDate>Sun, 12 Jul 2015 23:01:01 +0100</pubDate>
+				<link>http://localhost:4000/2015/07/revert-and-reset-commits</link>
+				<guid isPermaLink="true">http://localhost:4000/2015/07/revert-and-reset-commits</guid>
+			</item>
+		
+			<item>
+				<title>MySQL Dump</title>
+				<description>&lt;p&gt;Dumping mysql databases using the command &lt;strong&gt;mysqldump&lt;/strong&gt;, documentation available in:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;type &lt;code class=&quot;highlight language-bash&quot; data-lang=&quot;bash&quot;&gt;man mysqldump&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;type &lt;code class=&quot;highlight language-bash&quot; data-lang=&quot;bash&quot;&gt;mysqldump --help&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://dev.mysql.com/doc/refman/5.5/en/mysqldump.html&quot;&gt;https://dev.mysql.com/doc/refman/5.5/en/mysqldump.html&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;structure&quot;&gt;Structure&lt;/h3&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;mysqldump -h &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;host] -u &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;username] -p --no-data --databases &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;databases names]&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;data&quot;&gt;Data&lt;/h3&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;mysqldump -h &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;host] -u &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;username] -p --no-create-info --databases &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;databases names]&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;structure-and-data&quot;&gt;Structure and data&lt;/h3&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;mysqldump -h &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;host] -u &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;username] -p --databases &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;databases names]&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;specific-tables&quot;&gt;Specific table(s)&lt;/h3&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;mysqldump -u &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;username] -p &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;database name] &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;table name] &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;table name]&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+</description>
+				<pubDate>Thu, 18 Jun 2015 09:42:32 +0100</pubDate>
+				<link>http://localhost:4000/2015/06/mysqldump</link>
+				<guid isPermaLink="true">http://localhost:4000/2015/06/mysqldump</guid>
+			</item>
+		
+			<item>
+				<title>Burn iso image to usb on OSX</title>
+				<description>&lt;ul&gt;
+  &lt;li&gt;open ‘Disk utility’ to unmount usb partition&lt;/li&gt;
+  &lt;li&gt;check usb partition&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;    diskutil list
+    &lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;burn iso to usb&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;    sudo dd &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;DISK-IMAGE.iso &lt;span class=&quot;nv&quot;&gt;of&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/dev/DRIVE-NAME
+    &lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+</description>
+				<pubDate>Tue, 16 Jun 2015 09:56:00 +0100</pubDate>
+				<link>http://localhost:4000/2015/06/burn-iso-to-usb</link>
+				<guid isPermaLink="true">http://localhost:4000/2015/06/burn-iso-to-usb</guid>
+			</item>
+		
+			<item>
+				<title>List commit files</title>
+				<description>
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;git show --name-only &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;commit id]&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+</description>
+				<pubDate>Mon, 15 Jun 2015 23:47:45 +0100</pubDate>
+				<link>http://localhost:4000/2015/06/list-commit-files</link>
+				<guid isPermaLink="true">http://localhost:4000/2015/06/list-commit-files</guid>
+			</item>
+		
+			<item>
+				<title>OSX Environment variables</title>
+				<description>&lt;p&gt;reference: &lt;a href=&quot;http://www.schrodinger.com/kb/1842&quot;&gt;http://www.schrodinger.com/kb/1842&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;To set an environment variable on Mac OSX, first open a terminal window.&lt;/p&gt;
+
+&lt;p&gt;If you are setting the environment variable to run jobs from the command line, use the following command:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;variable&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;value&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;where variable is the name of the environment variable (such as SCHRODINGER) and value is the value you want to assign to the variable, (such as /opt/schrodinger/suites2013). You can find out which environment variables have been set with the env command.&lt;/p&gt;
+
+&lt;p&gt;If you are setting the environment variable globally to use with applications, use the commands given below. The environment variables set by these commands are inherited by any shell or application.&lt;/p&gt;
+
+&lt;h3 id=&quot;os-x-106-107&quot;&gt;OS X 10.6, 10.7&lt;/h3&gt;
+
+&lt;p&gt;To set an environment variable, enter the following command:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;defaults write ~/.MacOSX/environment variable &lt;span class=&quot;s2&quot;&gt;&quot;value&quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;To find out which environment variables have been set, enter the following command:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;defaults &lt;span class=&quot;nb&quot;&gt;read&lt;/span&gt; ~/.MacOSX/environment&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;os-x-108-109-1010&quot;&gt;OS X 10.8, 10.9, 10.10&lt;/h3&gt;
+
+&lt;p&gt;To set an environment variable, enter the following command:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;launchctl setenv variable &lt;span class=&quot;s2&quot;&gt;&quot;value&quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;To find out if an environment variable is set, use the following command:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;launchctl getenv variable&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;To clear an environment variable, use the following command:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;launchctl unsetenv variable&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+</description>
+				<pubDate>Sun, 14 Jun 2015 22:53:02 +0100</pubDate>
+				<link>http://localhost:4000/2015/06/osx-env-vars</link>
+				<guid isPermaLink="true">http://localhost:4000/2015/06/osx-env-vars</guid>
+			</item>
+		
+			<item>
+				<title>Delete local branch</title>
+				<description>
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;git branch -d the_local_branch&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+</description>
+				<pubDate>Sun, 14 Jun 2015 22:53:02 +0100</pubDate>
+				<link>http://localhost:4000/2015/06/delete-local-branch</link>
+				<guid isPermaLink="true">http://localhost:4000/2015/06/delete-local-branch</guid>
+			</item>
+		
+			<item>
+				<title>Local branch track remote branch</title>
+				<description>&lt;h3 id=&quot;as-of-git-180&quot;&gt;As of Git 1.8.0&lt;/h3&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;git branch -u upstream/foo&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Or, if local branch foo is not the current branch:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;git branch -u upstream/foo foo&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Or, if you like to type longer commands, these are equivalent to the above two:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;git branch --set-upstream-to&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;upstream/foo
+git branch --set-upstream-to&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;upstream/foo foo&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;as-of-git-170&quot;&gt;As of Git 1.7.0&lt;/h3&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;git branch --set-upstream foo upstream/foo&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+</description>
+				<pubDate>Sun, 14 Jun 2015 22:48:07 +0100</pubDate>
+				<link>http://localhost:4000/2015/06/local-branch-track-remote-branch</link>
+				<guid isPermaLink="true">http://localhost:4000/2015/06/local-branch-track-remote-branch</guid>
+			</item>
+		
+	</channel>
+</rss>
